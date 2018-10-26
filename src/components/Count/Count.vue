@@ -14,7 +14,7 @@
     <p>{{$store.state.count}}---{{count}}</p>
 
     <hr>
-    <!-- 传递参数： @click="$store.commit('added',param1，param2)"---第一个是函数吗，第二个开始是参数 -->
+    <!-- 传递参数： @click="$store.commit('added',param1，param2)"---第一个是函数名，第二个开始是参数 -->
     <button @click="$store.commit('added2',randow)">➕</button>
 
     <hr>
@@ -27,10 +27,10 @@
 
 <script>
 /* eslint-disable no-console */
-import store from '@/vuex/vuex'; // 引入store
+import store from '@/vuex/store'; // 引入store
 // 方法二使用mapState
 // mapMutations 简化函数调用 @click="$store.commit('added')"
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapMutations, mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -52,7 +52,17 @@ export default {
   //   count: state => state.count,
   // }),
   // 【state访问状态对象】--- 方法三 使用mapState --- []
-  computed: mapState(['count']),
+  // computed: mapState(['count']), // ---使用 ES6的扩展运算符 ... 没错就是三个点
+  computed: {
+    ...mapState(['count']),
+    // 正常写法
+    // count() {
+    //   return this.$store.getters.count;
+    // },
+
+    // 使用mapGetters
+    ...mapGetters(['count']),
+  },
   updated() { // 数据更新才会调用（数据发生改变）
     this.randow = Math.floor(Math.random() * 10) + 1;
   },

@@ -190,5 +190,70 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
     <button @click="added2(randow)">added2</button>
 ```
 
+# getters计算过滤操作
+  
+  对比computed
+
+  getters从表面是获得的意思，可以把他看作在获取数据之前进行的一种再编辑,相当于对数据的一个过滤和加工。你可以把它看作store.js的计算属性。
+  
+
+* getters基本用法：
+
+比如我们现在要对store.js文件中的count进行一个计算属性的操作，就是在它输出前，给它加上100.
+
+我们首先要在store.js里用const声明我们的getters属性。
+``` 
+const getters = {
+    count:function(state){
+        return state.count +=100;
+    }
+}
+``` 
+写好了gettters之后，我们还需要在Vuex.Store()里引入，由于之前我们已经引入了state盒mutations，所以引入里有三个引入属性。代码如下，
+``` 
+export default new Vuex.Store({
+    state,
+    mutations,
+    getters
+})
+``` 
+在store.js里的配置算是完成了，我们需要到模板页对computed进行配置。在vue 的构造器里边只能有一个computed属性，如果你写多个，只有最后一个computed属性可用，所以要将存在的computed属性进行一个改造。改造时我们使用ES6中的展开运算符”…”。
+
+``` 
+computed:{
+    ...mapState(["count"]),
+    count(){
+        return this.$store.getters.count;
+    }
+},
+``` 
+
+需要注意的是，你写了这个配置后，在每次count 的值发生变化的时候，都会进行加100的操作。
+
+用mapGetters简化模板写法：⚠️ 推荐
+
+我们都知道state和mutations都有map的引用方法把我们模板中的编码进行简化，我们的getters也是有的，我们来看一下代码。
+
+首先用import引入我们的`mapGetters
+
+``` 
+import { mapState,mapMutations,mapGetters } from 'vuex';
+```
+
+在computed属性中加入mapGetters
+
+```
+computed: {
+    ...mapState(['count']),
+    // 正常写法
+    // count() {
+    //   return this.$store.getters.count;
+    // },
+
+    // 改使用mapGetters
+    ...mapGetters(['count']),
+  },
+
+```
 
 

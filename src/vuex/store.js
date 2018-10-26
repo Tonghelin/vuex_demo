@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-const state = {
+const state = { // 状态声明
   count: 1,
 };
 
@@ -22,7 +22,16 @@ const mutations = { // 要改变state状态 中的数据 必须通过mutations �
   },
 };
 
+const getters = { // 声明完要方到Vuex.Store 里面暴露出去
+  count() {
+    state.count += 100;
+    console.log('state.count', state.count);
+    return state.count;
+  },
+};
+
 export default new Vuex.Store({
   state,
   mutations, // 暴露出 mutations
+  getters,
 });
