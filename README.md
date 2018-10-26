@@ -26,3 +26,65 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 > npm install vuex --save
 > import Vuex from 'vuex';
+
+# 初试牛刀---一个小demo
+
+```
+  // 配置 store
+  import Vue from 'vue';
+  import Vuex from 'vuex'; // 1
+  
+  Vue.use(Vuex);
+  
+  const state = { // 2
+    count: 1,
+  };
+  
+  const mutations = { // 3. 要改变state状态 中的数据 必须通过mutations 来改变
+    added() {
+      state.count += 1;
+    },
+    subtract() {
+      state.count -= 1;
+    },
+  };
+  
+  export default new Vuex.Store({
+    state,
+    mutations, // 4. 暴露出 mutations
+  });
+
+```
+
+``` 
+  <template>
+    <div id="store">
+      <h1>来自Store的数据</h1>
+      <p>{{msg}}</p>
+      
+      <!-- 加载store中的数据 -->
+      <p>{{$store.state.count}}</p>
+      <br>
+      
+      <!-- 调用store中的方法 $store.commit('name') -->
+      <button @click="$store.commit('added')">➕</button>
+      <button @click="$store.commit('subtract')">➖</button>
+  </template>
+  
+  <script>
+  import store from '@/vuex/vuex'; // 1. 引入store
+  
+  export default {
+    data() {
+      return {
+        msg: 'Hello Store',
+      };
+    },
+    // 2. 引入 store
+    store,
+  };
+  </script>
+
+```
+#### 如何调用方法？$store.commit('name') 注意方法名要加引号
+* @click="$store.commit('added')" 
