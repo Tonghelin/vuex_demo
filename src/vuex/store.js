@@ -46,9 +46,26 @@ const actions = {
   },
 };
 
-export default new Vuex.Store({
+// module 模块组
+const moduleA = {
   state,
   mutations, // 暴露出 mutations
   getters,
   actions,
+};
+
+// 使用module模块组之前的Vuex.Store
+// export default new Vuex.Store({
+//   state,
+//   mutations, // 暴露出 mutations
+//   getters,
+//   actions,
+// });
+
+// 使用module模块组之后的Vuex.Store
+export default new Vuex.Store({
+  modules: {
+    aName: moduleA,
+  },
 });
+

@@ -22,7 +22,9 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 # 使用Vuex
 
-> [技术胖的vuex视频教程](http://jspang.com/post/vuex.html)
+* 参考
+> [技术胖的vuex视频教程](http://jspang.com/post/vuex.html)  
+> [Axios](https://www.jianshu.com/p/df464b26ae58)尤大神推荐   
 
 > vuex是一个专门为vue.js设计的集中式状态管理架构。状态？我把它理解为在data中的属性需要共享给其他vue组件使用的部分，就叫做状态。简单的说就是data中需要共用的属性。比如：我们有几个页面要显示用户名称和用户等级，或者显示用户的地理位置。如果我们不把这些属性设置为状态，那每个页面遇到后，都会到服务器进行查找计算，返回后再显示。在中大型项目中会有很多共用的数据，所以尤大神给我们提供了vuex。
 
@@ -292,5 +294,31 @@ actions和之前讲的Mutations功能基本一样，不同点是，actions是异
   },
 ```
 
+# module 模块组  
 
+> 非大型项目不建议使用模块组
+
+随着项目的复杂性增加，我们共享的状态越来越多，这时候我们就需要把我们状态的各种操作进行一个分组，分组后再进行按组编写。
+
+* 声明模块组：
+
+在vuex/store.js中声明模块组，我们还是用我们的const常量的方法声明模块组。代码如下：
+
+``` 
+  const moduleA={
+      state,mutations,getters,actions
+  }
+```
+* 声明好后，我们需要修改原来 Vuex.Stroe里的值：
+
+``` 
+  export default new Vuex.Store({
+      modules:{a:moduleA}
+  })
+```
+
+* 在模板中使用 现在我们要在模板中使用count状态，要用插值的形式写入。
+``` 
+  <h3>{{$store.state.a.count}}</h3>
+```
 
