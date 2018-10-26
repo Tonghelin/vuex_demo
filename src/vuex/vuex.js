@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Vue from 'vue';
 import Vuex from 'vuex';
 
@@ -13,6 +14,11 @@ const mutations = { // 要改变state状态 中的数据 必须通过mutations �
   },
   subtract() {
     state.count -= 1;
+  },
+  added2(randow, randow2) {
+    state.count += randow2;
+    console.log(randow);
+    console.log(randow2);
   },
 };
 

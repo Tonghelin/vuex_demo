@@ -12,17 +12,31 @@
     <hr>
     <h1>state访问状态对象</h1>
     <p>{{$store.state.count}}---{{count}}</p>
+
+    <hr>
+    <!-- 传递参数： @click="$store.commit('added',param1，param2)"---第一个是函数吗，第二个开始是参数 -->
+    <button @click="$store.commit('added2',randow)">➕</button>
+
+    <hr>
+    <h2>使用mapMutations方法简化函数调用</h2>
+    <p>将 @click="$store.commit('added')" 替换成 added</p>
+    <!-- @click="added2(randow)" 这时接收的第一个就是参数-->
+    <button @click="added2(randow)">added2</button>
   </div>
 </template>
 
 <script>
+/* eslint-disable no-console */
 import store from '@/vuex/vuex'; // 引入store
-import { mapState } from 'vuex'; // 方法二使用mapState
+// 方法二使用mapState
+// mapMutations 简化函数调用 @click="$store.commit('added')"
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   data() {
     return {
       msg: 'Hello Store',
+      randow: 1, // 初始值不为0，保证数据更新
     };
   },
   // 引入 store
@@ -39,5 +53,9 @@ export default {
   // }),
   // 【state访问状态对象】--- 方法三 使用mapState --- []
   computed: mapState(['count']),
+  updated() { // 数据更新才会调用（数据发生改变）
+    this.randow = Math.floor(Math.random() * 10) + 1;
+  },
+  methods: mapMutations(['added', 'added2']), // 配置一下，这时就可以将 @click="$store.commit('added')" 替换成 added
 };
 </script>

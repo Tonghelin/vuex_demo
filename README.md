@@ -125,3 +125,70 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 ```
 
+# 三、Mutations 修改状态
+
+
+* 接收参数
+```
+  const mutations = { // 要改变state状态 中的数据 必须通过mutations 来改变
+    added() {
+      state.count += 1;
+    },
+    subtract() {
+      state.count -= 1;
+    },
+    added2(randow, randow2) {
+      state.count += randow2;
+      console.log(randow); // 第一个是方法对象，
+      console.log(randow2); // 第二个起是参数
+    },
+  };
+```
+
+* 传递参数
+
+``` 
+  //  @click="$store.commit('added2',randow)"
+  // commit 接收的第一个参数是 函数名，第二个开始是参数
+  <button @click="$store.commit('added2',randow)">➕</button>
+
+```
+
+* mapMutations
+
+@click="$store.commit('added2',randow)" 方法调用修改（简化成added2）
+
+``` 
+  /* eslint-disable no-console */
+  import store from '@/vuex/vuex'; // 引入store
+  // 方法二使用mapState
+  // mapMutations 简化函数调用  1. 引入mapMutations
+  @click="$store.commit('added')"
+  import { mapState, mapMutations } from 'vuex';
+  
+  export default {
+    data() {
+      return {
+        msg: 'Hello Store',
+        randow: 1, // 初始值不为0，保证数据更新
+      };
+    },
+    // 引入 store
+    store,
+    computed: mapState(['count']),
+    updated() { // 数据更新才会调用（数据发生改变）
+      this.randow = Math.floor(Math.random() * 10) + 1;
+    },
+    methods: mapMutations(['added', 'added2']), // 2. 配置一下，这时就可以将 @click="$store.commit('added')" 替换成 added
+  };
+```
+
+``` 
+    <h2>使用mapMutations方法简化函数调用</h2>
+    <p>将 @click="$store.commit('added')" 替换成 added</p>
+    <!-- @click="added2(randow)" 这时接收的第一个就是参数-->
+    <button @click="added2(randow)">added2</button>
+```
+
+
+
