@@ -27,7 +27,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 > npm install vuex --save
 > import Vuex from 'vuex';
 
-# 初试牛刀---一个小demo
+# 一、初试牛刀---一个小demo
 
 ```
   // 配置 store
@@ -88,3 +88,40 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ```
 #### 如何调用方法？$store.commit('name') 注意方法名要加引号
 * @click="$store.commit('added')" 
+
+# 二、state访问状态对象
+
+1. 使用 computed  
+2. 使用 mapState --- {}  
+3. 使用mapState --- []  
+
+```
+  <script>
+  import store from '@/vuex/vuex'; // 引入store
+  import { mapState } from 'vuex'; // 方法二使用mapState
+  
+  export default {
+    data() {
+      return {
+        msg: 'Hello Store',
+      };
+    },
+    // 引入 store
+    store,
+    // 【state访问状态对象】--- 方法一
+    // computed: {
+    //   count() {
+    //     return this.$store.state.count;
+    //   },
+    // },
+    // 【state访问状态对象】--- 方法二 使用mapState --- {}
+    // computed: mapState({
+    //   count: state => state.count,
+    // }),
+    // 【state访问状态对象】--- 方法三 使用mapState --- []
+    computed: mapState(['count']),
+  };
+  </script>
+
+```
+
