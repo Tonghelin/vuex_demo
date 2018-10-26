@@ -22,6 +22,8 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 # 使用Vuex
 
+> [技术胖的vuex视频教程](http://jspang.com/post/vuex.html)
+
 > vuex是一个专门为vue.js设计的集中式状态管理架构。状态？我把它理解为在data中的属性需要共享给其他vue组件使用的部分，就叫做状态。简单的说就是data中需要共用的属性。比如：我们有几个页面要显示用户名称和用户等级，或者显示用户的地理位置。如果我们不把这些属性设置为状态，那每个页面遇到后，都会到服务器进行查找计算，返回后再显示。在中大型项目中会有很多共用的数据，所以尤大神给我们提供了vuex。
 
 > npm install vuex --save
@@ -190,7 +192,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
     <button @click="added2(randow)">added2</button>
 ```
 
-# getters计算过滤操作
+# 四、getters计算过滤操作
   
   对比computed
 
@@ -255,5 +257,40 @@ computed: {
   },
 
 ```
+
+# 5、actions异步修改状态
+
+> 前面学的Mutations 修改状态是同步的
+
+actions和之前讲的Mutations功能基本一样，不同点是，actions是异步的改变state状态，而Mutations是同步改变状态。
+
+首先 store.js
+``` 
+  const actions = {
+    // actions 可以调用mutations里面的方法
+    addAction(context) { // 传入一个参数，上下文对象
+      context.commit('added3', 1000);
+    },
+    reduceAction({ commit }) { // 不同的方法，这使用包装起来的commit对象
+      commit('reduce');
+    },
+  };
+  export default new Vuex.Store({
+    state,
+    mutations, // 暴露出 mutations
+    getters,
+    actions,
+  });
+```
+
+然后
+
+```
+  methods: {
+    ...mapMutations(['added', 'added2']),
+    ...mapActions(['addAction', 'reduceAction']),
+  },
+```
+
 
 

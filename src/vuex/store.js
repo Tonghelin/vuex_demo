@@ -15,10 +15,16 @@ const mutations = { // 要改变state状态 中的数据 必须通过mutations �
   subtract() {
     state.count -= 1;
   },
+  reduce() {
+    state.count -= 1;
+  },
   added2(randow, randow2) {
     state.count += randow2;
     console.log(randow);
     console.log(randow2);
+  },
+  added3(randow, num) {
+    state.count += num;
   },
 };
 
@@ -30,8 +36,19 @@ const getters = { // 声明完要方到Vuex.Store 里面暴露出去
   },
 };
 
+const actions = {
+  // actions 可以调用mutations里面的方法
+  addAction(context) { // 传入一个参数，上下文对象
+    context.commit('added3', 1000);
+  },
+  reduceAction({ commit }) { // 不同的方法，这使用包装起来的commit对象
+    commit('reduce');
+  },
+};
+
 export default new Vuex.Store({
   state,
   mutations, // 暴露出 mutations
   getters,
+  actions,
 });

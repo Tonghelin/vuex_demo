@@ -22,6 +22,12 @@
     <p>将 @click="$store.commit('added')" 替换成 added</p>
     <!-- @click="added2(randow)" 这时接收的第一个就是参数-->
     <button @click="added2(randow)">added2</button>
+
+    <hr>
+    // 2
+    <h1>actions异步修改状态</h1>
+    <button @click="addAction(randow)">addAction</button>
+    <button @click="reduceAction(randow)">reduceAction</button>
   </div>
 </template>
 
@@ -30,7 +36,7 @@
 import store from '@/vuex/store'; // 引入store
 // 方法二使用mapState
 // mapMutations 简化函数调用 @click="$store.commit('added')"
-import { mapState, mapMutations, mapGetters } from 'vuex';
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
 
 export default {
   data() {
@@ -66,6 +72,12 @@ export default {
   updated() { // 数据更新才会调用（数据发生改变）
     this.randow = Math.floor(Math.random() * 10) + 1;
   },
-  methods: mapMutations(['added', 'added2']), // 配置一下，这时就可以将 @click="$store.commit('added')" 替换成 added
+  // 配置一下，这时就可以将 @click="$store.commit('added')" 替换成 added
+  // methods: mapMutations(['added', 'added2']),
+  // 同样的使用...扩展一下methods
+  methods: {
+    ...mapMutations(['added', 'added2']),
+    ...mapActions(['addAction', 'reduceAction']),
+  },
 };
 </script>
